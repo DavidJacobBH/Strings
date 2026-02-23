@@ -1,3 +1,8 @@
+/*
+   Implementation of string functions.
+   See str.h for details.
+*/
+
 #include <stddef.h>
 #include <assert.h>
 
