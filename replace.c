@@ -20,47 +20,35 @@
 static size_t replaceAndWrite(const char *pcLine,
                               const char *pcFrom, const char *pcTo)
 {
-   const char *pcCur;
-   const char *pcMatch;
-   size_t uCount = 0;
-   size_t uFromLen;
-
    assert(pcLine != NULL);
    assert(pcFrom != NULL);
    assert(pcTo != NULL);
 
-   /* If pcFrom is empty, print line unchanged. */
+
    if (pcFrom[0] == '\0')
    {
       fputs(pcLine, stdout);
       return 0;
    }
-
-   uFromLen = Str_getLength(pcFrom);
-   pcCur = pcLine;
-
-   while ((pcMatch = (const char *)Str_search(pcCur, pcFrom)) != NULL)
+   else
    {
-      /* Write the portion before the match. */
-      size_t uPrefixLen = (size_t)(pcMatch - pcCur);
-      if (uPrefixLen > 0) {
-         while (fgets(acLine, MAX_LINE_SIZE, stdin) != NULL)
-         uReplaceCount += replaceAndWrite(acLine, pcFrom, pcTo);
+      size_t replacements = 0;
+      const size_t fromLen = Str_getLength(pcFrom);
+      const char *pcStart = pcLine;
+      const char *pcMatch;
+      
+      while ((pcMatch = Str_search(pcStart, pcFrom)) != NULL) {
+         (void)fwrite(pcStart, 1, (size_t)(pcMatch - pcStart), stdout);
+         fputs(pcTo, stdout);
+         replacements++;
+         pcStart = pcMatch + fromLen;
       }
-
-      /* Write replacement string. */
-      fputs(pcTo, stdout);
-      uCount++;
-
-      /* Advance past this (non-overlapping) occurrence. */
-      pcCur = pcMatch + uFromLen;
+      fputs(pcStart, stdout);
+      return replacements;
    }
 
-   /* Write remaining tail. */
-   fputs(pcCur, stdout);
-
-   return uCount;
 }
+
 /*--------------------------------------------------------------------*/
 
 /* If argc is unequal to 3, then write an error message to stderr and
@@ -94,7 +82,22 @@ int main(int argc, char *argv[])
    pcTo = argv[2];
 
    while (fgets(acLine, MAX_LINE_SIZE, stdin) != NULL)
-      /* Insert your code here. */
+   {
+      /* If pcFrom is empty, just echo this line and the rest of stdin,
+         then report 0 replacements and exit. */
+      if (pcFrom[0] == '\0')
+      {
+         fputs(acLine, stdout);
+         while (fgets(acLine, MAX_LINE_SIZE, stdin) != NULL)
+            fputs(acLine, stdout);
+
+         uReplaceCount = 0;
+         break;  /* exit the outer while loop */
+      }
+
+      /* Normal case: replace within this line. */
+      uReplaceCount += replaceAndWrite(acLine, pcFrom, pcTo);
+   }
 
    fprintf(stderr, "%lu replacements\n", (unsigned long)uReplaceCount);
    return 0;

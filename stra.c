@@ -6,6 +6,7 @@
 #include <stddef.h>
 #include <assert.h>
 
+/* Find the length of string pcSrc, not including the trailing '\0'. */
 size_t Str_getLength(const char pcSrc[])
 {
    size_t uLength = 0;
@@ -18,6 +19,7 @@ size_t Str_getLength(const char pcSrc[])
    return uLength;
 }
 
+/* Copies a string from pcSrc to pcDest, including the trailing '\0'. */
 char *Str_copy(char pcDest[], const char pcSrc[])
 {
    size_t uLength;
@@ -35,6 +37,7 @@ char *Str_copy(char pcDest[], const char pcSrc[])
    return pcDest;
 }
 
+/* Concatenates pcSrc to the end of pcDest, including the trailing '\0'. */
 char *Str_concat(char pcDest[], const char pcSrc[])
 {
    size_t vLength;
@@ -56,6 +59,7 @@ char *Str_concat(char pcDest[], const char pcSrc[])
    return pcDest;
 }
 
+/* Compares pcS1 and pcS2 lexicographically. */
 int Str_compare(const char pcS1[], const char pcS2[])
 {
    size_t i = 0;
@@ -81,6 +85,7 @@ int Str_compare(const char pcS1[], const char pcS2[])
       return 1;
 }
 
+/* Finds the first occurrence of pcNeedle in pcHaystack. */
 char *Str_search(const char pcHaystack[], const char pcNeedle[])
 {
    size_t i;
@@ -89,7 +94,6 @@ char *Str_search(const char pcHaystack[], const char pcNeedle[])
    assert(pcHaystack != NULL);
    assert(pcNeedle != NULL);
 
-   /* Empty needle matches at start (like strstr). */
    if (pcNeedle[0] == '\0')
       return (char *)pcHaystack;
 

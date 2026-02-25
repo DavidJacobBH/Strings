@@ -5,6 +5,7 @@
 #include <stddef.h>
 #include <assert.h>
 
+/* Find the length of string pcSrc, not including the trailing '\0'. */
 size_t Str_getLength(const char pcSrc[])
 {
    const char *pc;
@@ -15,6 +16,7 @@ size_t Str_getLength(const char pcSrc[])
    return (size_t)(pc - pcSrc);
 }
 
+/* Copies a string from pcSrc to pcDest, including the trailing '\0'. */
 char *Str_copy(char *pcDest, const char *pcSrc)
 {
    char *pcRtrn;
@@ -27,6 +29,7 @@ char *Str_copy(char *pcDest, const char *pcSrc)
    return pcRtrn;
 }
 
+/* Concatenates pcSrc to the end of pcDest, including the trailing '\0'. */
 char *Str_concat(char pcDest[], const char pcSrc[])
 {
    char *pcRtrn;
@@ -41,6 +44,7 @@ char *Str_concat(char pcDest[], const char pcSrc[])
    return pcRtrn;
 }
 
+/* Compares pcS1 and pcS2 lexicographically. */
 int Str_compare(const char pcS1[], const char pcS2[])
 {
    assert(pcS1 != NULL);
@@ -62,6 +66,7 @@ int Str_compare(const char pcS1[], const char pcS2[])
       return 1;
 }
 
+/* Finds the first occurrence of pcNeedle in pcHaystack. */
 char *Str_search(const char pcHaystack[], const char pcNeedle[])
 {
    const char *start;
