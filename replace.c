@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------*/
 /* replace.c                                                          */
-/* Author: ???                                                        */
+/* Author: David Jacob Blankson-Hemans                                */
 /*--------------------------------------------------------------------*/
 
 #include "str.h"
@@ -20,9 +20,45 @@
 static size_t replaceAndWrite(const char *pcLine,
                               const char *pcFrom, const char *pcTo)
 {
-   /* Insert your code here. */
-}
+   const char *pcCur;
+   const char *pcMatch;
+   size_t uCount = 0;
+   size_t uFromLen;
 
+   assert(pcLine != NULL);
+   assert(pcFrom != NULL);
+   assert(pcTo != NULL);
+
+   /* If pcFrom is empty, print line unchanged. */
+   if (pcFrom[0] == '\0')
+   {
+      fputs(pcLine, stdout);
+      return 0;
+   }
+
+   uFromLen = Str_getLength(pcFrom);
+   pcCur = pcLine;
+
+   while ((pcMatch = (const char *)Str_search(pcCur, pcFrom)) != NULL)
+   {
+      /* Write the portion before the match. */
+      size_t uPrefixLen = (size_t)(pcMatch - pcCur);
+      if (uPrefixLen > 0)
+         fwrite(pcCur, 1, uPrefixLen, stdout);
+
+      /* Write replacement string. */
+      fputs(pcTo, stdout);
+      uCount++;
+
+      /* Advance past this (non-overlapping) occurrence. */
+      pcCur = pcMatch + uFromLen;
+   }
+
+   /* Write remaining tail. */
+   fputs(pcCur, stdout);
+
+   return uCount;
+}
 /*--------------------------------------------------------------------*/
 
 /* If argc is unequal to 3, then write an error message to stderr and
