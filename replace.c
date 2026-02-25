@@ -43,8 +43,10 @@ static size_t replaceAndWrite(const char *pcLine,
    {
       /* Write the portion before the match. */
       size_t uPrefixLen = (size_t)(pcMatch - pcCur);
-      if (uPrefixLen > 0)
-         fwrite(pcCur, 1, uPrefixLen, stdout);
+      if (uPrefixLen > 0) {
+         while (fgets(acLine, MAX_LINE_SIZE, stdin) != NULL)
+         uReplaceCount += replaceAndWrite(acLine, pcFrom, pcTo);
+      }
 
       /* Write replacement string. */
       fputs(pcTo, stdout);
