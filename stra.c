@@ -1,5 +1,5 @@
 /*
-   Implementation of string functions.
+   Implementation of string functions using array notation.
    See str.h for details.
 */
 

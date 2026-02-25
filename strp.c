@@ -1,4 +1,7 @@
-
+/*
+   Implementation of string functions using pointer notation.
+   See str.h for details.
+*/
 #include <stddef.h>
 #include <assert.h>
 
@@ -62,8 +65,8 @@ int Str_compare(const char pcS1[], const char pcS2[])
 char *Str_search(const char pcHaystack[], const char pcNeedle[])
 {
    const char *start;
-   const char *h;
-   const char *n;
+   const char *haystack;
+   const char *needle;
 
    assert(pcHaystack != NULL);
    assert(pcNeedle != NULL);
@@ -73,16 +76,16 @@ char *Str_search(const char pcHaystack[], const char pcNeedle[])
 
    for (start = pcHaystack; *start != '\0'; start++)
    {
-      h = start;
-      n = pcNeedle;
+      haystack = start;
+      needle = pcNeedle;
 
-      while (*h != '\0' && *n != '\0' && *h == *n)
+      while (*haystack != '\0' && *needle != '\0' && *haystack == *needle)
       {
-         h++;
-         n++;
+         haystack++;
+         needle++;
       }
 
-      if (*n == '\0')
+      if (*needle == '\0')
          return (char *)start;
    }
 
