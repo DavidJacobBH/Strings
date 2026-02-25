@@ -55,6 +55,8 @@ I used AI (ChatGPT) to understand split warnings and how to resolve them,
 I used AI (ChatGPT) understand the intended behavior of replaceAndWrite and how to
 stream output safely without allocating large buffers.
 
+I used AI (ChatGPT) to help with the functions to submit the right files.
+
 ------------------------------------------------------------------------
 What is your assessment of the assignment? Was it helpful? Was it fun?
 
